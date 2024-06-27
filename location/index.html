@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reverse Geocoding</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Reverse Geocoding</h1>
+        <div class="input-group">
+            <label for="latitude">Latitude:</label>
+            <input type="text" id="latitude" value="10.9413">
+        </div>
+        <div class="input-group">
+            <label for="longitude">Longitude:</label>
+            <input type="text" id="longitude" value="76.7439">
+        </div>
+        <button id="fetchLocation">Get Location</button>
+        <div id="locationDetails">
+            <h2>Location Details:</h2>
+            <p id="location"></p>
+            <p id="coordinates"></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

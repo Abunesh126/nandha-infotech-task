@@ -1,0 +1,115 @@
+body {
+    background-image: url('static\\map_dot.jpg');
+    background-size: cover;
+    background-position: center;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* Ensure content is centered vertically */
+    padding: 20px; /* Add padding to the container */
+    box-sizing: border-box; /* Include padding in the element's total width and height */
+}
+
+h1 {
+    font-family: 'Lobster', cursive;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    margin-bottom: 5px;
+    display: block;
+    font-weight: 600;
+    color: #34495e;
+}
+
+.input-group input {
+    padding: 10px;
+    width: calc(100% - 20px);
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+#locationDetails strong {
+    margin-top: 30px;
+}
+
+#locationDetails h2 strong {
+    margin-bottom: 10px;
+    color: #000000;
+    font-weight: 600;
+}
+
+#locationDetails p strong {
+    margin: 5px 0;
+    color: #000000;
+    font-weight: 300;
+}
+
+#locationDetails p strong {
+    font-weight: 600;
+    color: #000000;
+}
+
+#locationDetails p u {
+    text-decoration: underline;
+    color: #000000;
+}
+
+.custom-file-input::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+.custom-file-input::before {
+    content: 'Choose file';
+    display: inline-block;
+    background: linear-gradient(to top, #f9f9f9, #e3e3e3);
+    border: 1px solid #999;
+    border-radius: 3px;
+    padding: 5px 8px;
+    outline: none;
+    white-space: nowrap;
+    cursor: pointer;
+    text-shadow: 1px 1px #fff;
+    font-weight: 700;
+    font-size: 10pt;
+    margin-right: 10px;
+    color: #444;
+    user-select: none; /* Make the text unselectable in all browsers */
+}
+
+.custom-file-input:hover::before {
+    border-color: black;
+}
+
+.custom-file-input:active::before {
+    background: linear-gradient(to top, #e3e3e3, #f9f9f9);
+}
