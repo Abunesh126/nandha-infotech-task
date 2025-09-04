@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geofencing Tree Counter</title>
+    <!-- Link to FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #0056b3;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        input[type="number"] {
+            flex: 2;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0056b3;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #004494;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        #canvasContainer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        canvas {
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Geofencing Tree Counter</h1>
+    <form id="treeForm">
+        <div class="input-group">
+            <label for="acres">
+                <i class="fas fa-seedling icon"></i> Number of acres:
+            </label>
+            <input type="number" id="acres" name="acres" min="0" step="any" required>
+        </div>
+        <div class="input-group">
+            <label for="treesPerAcre">
+                <i class="fas fa-seedling icon"></i> Number of trees per acre:
+            </label>
+            <input type="number" id="treesPerAcre" name="treesPerAcre" min="1" step="1" value="5" required>
+        </div>
+
+        <button type="button" onclick="calculateTotalTrees()">Calculate Total</button>
+    </form>
+    <div class="result" id="result"></div>
+    <div id="canvasContainer">
+        <canvas id="treeCanvas" width="600" height="400"></canvas>
+    </div>
+
+    <script>
+        let isDragging = false;
+        let startX, startY, endX, endY;
+        let acres, treesPerAcre;
+        const canvas = document.getElementById('treeCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.addEventListener('mousedown', handleMouseDown);
+        canvas.addEventListener('mousemove', handleMouseMove);
+        canvas.addEventListener('mouseup', handleMouseUp);
+
+        function handleMouseDown(event) {
+            isDragging = true;
+            startX = event.offsetX;
+            startY = event.offsetY;
+        }
+
+        function handleMouseMove(event) {
+            if (!isDragging) return;
+
+            endX = event.offsetX;
+            endY = event.offsetY;
+
+            drawTrees(acres, treesPerAcre);
+            drawSelectionBox();
+        }
+
+        function handleMouseUp(event) {
+            isDragging = false;
+            endX = event.offsetX;
+            endY = event.offsetY;
+
+            const selectedTrees = calculateSelectedTrees();
+            document.getElementById('result').textContent = `Selected trees: ${selectedTrees.length}`;
+
+            drawTrees(acres, treesPerAcre);
+        }
+
+        function drawSelectionBox() {
+            const width = endX - startX;
+            const height = endY - startY;
+
+            ctx.fillStyle = 'rgba(0, 0, 255, 0.3)';
+            ctx.fillRect(startX, startY, width, height);
+        }
+
+        function calculateSelectedTrees() {
+            const selectedTrees = [];
+
+            const startXMin = Math.min(startX, endX);
+            const startYMin = Math.min(startY, endY);
+            const endXMax = Math.max(startX, endX);
+            const endYMax = Math.max(startY, endY);
+
+            const gridWidth = (endXMax - startXMin) / acres;
+            const gridHeight = (endYMax - startYMin) / treesPerAcre;
+
+            for (let i = 0; i < acres; i++) {
+                for (let j = 0; j < treesPerAcre; j++) {
+                    const x = startXMin + i * gridWidth + gridWidth / 2;
+                    const y = startYMin + j * gridHeight + gridHeight / 2;
+                    selectedTrees.push({ x, y });
+                }
+            }
+
+            return selectedTrees.filter(tree => {
+                return tree.x >= startXMin && tree.x <= endXMax && tree.y >= startYMin && tree.y <= endYMax;
+            });
+        }
+
+        function calculateTotalTrees() {
+            acres = parseFloat(document.getElementById('acres').value) || 0;
+            treesPerAcre = parseInt(document.getElementById('treesPerAcre').value) || 0;
+
+            const totalTrees = acres * treesPerAcre;
+
+            document.getElementById('result').textContent = `Total number of trees: ${totalTrees}`;
+
+            drawTrees(acres, treesPerAcre);
+        }
+
+        function drawTrees(acres, treesPerAcre) {
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Set the geofencing area
+            ctx.strokeStyle = '#0056b3';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(50, 50, 500, 300);
+
+            // Draw trees
+            const maxTrees = acres * treesPerAcre; // Maximum number of trees within the specified area
+            const treeRadius = 5;
+            5; // Radius of each tree
+
+            // Calculate grid dimensions for even distribution of trees
+            const gridWidth = 500 / acres;
+            const gridHeight = 300 / treesPerAcre;
+
+            ctx.fillStyle = 'green';
+
+            // Draw trees in an ordered grid pattern
+            for (let i = 0; i < acres; i++) {
+                for (let j = 0; j < treesPerAcre; j++) {
+                    const x = 50 + i * gridWidth + gridWidth / 2; // Center of the grid cell
+                    const y = 50 + j * gridHeight + gridHeight / 2; // Center of the grid cell
+
+                    // Draw tree if within the geofencing area
+                    if (x >= 50 && x <= 550 && y >= 50 && y <= 350) {
+                        ctx.beginPath();
+                        ctx.arc(x, y, treeRadius, 0, 2 * Math.PI);
+                        ctx.fill();
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
+
