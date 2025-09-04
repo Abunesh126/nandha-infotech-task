@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Quality Information</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Air Quality Information</h1>
+        <div id="location-input">
+            <input type="text" id="location" placeholder="Enter location">
+            <button id="fetch-data">Fetch Air Quality Data</button>
+        </div>
+        <div id="location-info">
+            <p><strong>Location:</strong> <span id="location-display"></span></p>
+            <p><strong>Latitude:</strong> <span id="latitude"></span></p>
+            <p><strong>Longitude:</strong> <span id="longitude"></span></p>
+        </div>
+        <div id="air-quality-info">
+            <p><strong>Air Quality Index (AQI):</strong> <span id="aqi"></span></p>
+            <p><strong>PM10:</strong> <span id="pm10"></span> µg/m³</p>
+            <p><strong>PM2.5:</strong> <span id="pm25"></span> µg/m³</p>
+            <p><strong>O3:</strong> <span id="o3"></span> ppb</p>
+            <p><strong>NO2:</strong> <span id="no2"></span> ppb</p>
+            <p><strong>SO2:</strong> <span id="so2"></span> ppb</p>
+            <p><strong>CO:</strong> <span id="co"></span> ppb</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
