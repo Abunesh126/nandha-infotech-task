@@ -1,0 +1,111 @@
+{
+  "name": "PhotoVault - Professional Gallery",
+  "short_name": "PhotoVault",
+  "description": "A secure and feature-rich photo gallery application",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#667eea",
+  "background_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["photo", "gallery", "multimedia"],
+  "icons": [
+    {
+      "src": "https://via.placeholder.com/72x72/667eea/ffffff?text=PV",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "badge"
+    },
+    {
+      "src": "https://via.placeholder.com/96x96/667eea/ffffff?text=PV",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://via.placeholder.com/128x128/667eea/ffffff?text=PV",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://via.placeholder.com/144x144/667eea/ffffff?text=PV",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://via.placeholder.com/152x152/667eea/ffffff?text=PV",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://via.placeholder.com/192x192/667eea/ffffff?text=PV",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://via.placeholder.com/384x384/667eea/ffffff?text=PV",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://via.placeholder.com/512x512/667eea/ffffff?text=PV",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "https://via.placeholder.com/540x720/667eea/ffffff?text=Login+Screen",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "https://via.placeholder.com/720x540/667eea/ffffff?text=Gallery+View",
+      "sizes": "720x540",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Upload Photos",
+      "short_name": "Upload",
+      "description": "Upload new photos to your gallery",
+      "url": "/?action=upload",
+      "icons": [
+        {
+          "src": "https://via.placeholder.com/96x96/48bb78/ffffff?text=UP",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "View Favorites",
+      "short_name": "Favorites",
+      "description": "View your favorite photos",
+      "url": "/?action=favorites",
+      "icons": [
+        {
+          "src": "https://via.placeholder.com/96x96/f56565/ffffff?text=♥",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  }
+}

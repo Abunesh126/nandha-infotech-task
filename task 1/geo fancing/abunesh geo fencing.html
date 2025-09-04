@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Geofencing Tree Counter</title>
+    <!-- Link to FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .controls {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            color: #0056b3;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #0056b3;
+            box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #0056b3, #007bff);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 86, 179, 0.3);
+        }
+
+        .result {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 16px;
+            color: #0056b3;
+            border-left: 4px solid #0056b3;
+        }
+
+        .canvas-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        #canvasContainer {
+            text-align: center;
+        }
+
+        canvas {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: crosshair;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .canvas-info {
+            margin-top: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #28a745;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-tree"></i> Advanced Geofencing Tree Counter</h1>
+        
+        <div class="main-content">
+            <div class="controls">
+                <form id="treeForm">
+                    <div class="input-group">
+                        <label for="acres">
+                            <i class="fas fa-map icon"></i> Number of acres:
+                        </label>
+                        <input type="number" id="acres" name="acres" min="0" step="any" placeholder="e.g., 2.5" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="treesPerAcre">
+                            <i class="fas fa-seedling icon"></i> Trees per acre:
+                        </label>
+                        <input type="number" id="treesPerAcre" name="treesPerAcre" min="1" step="1" value="5" required>
+                    </div>
+
+                    <button type="button" onclick="calculateTotalTrees()">
+                        <i class="fas fa-calculator"></i> Calculate Total Trees
+                    </button>
+                    
+                    <button type="button" onclick="clearCanvas()">
+                        <i class="fas fa-broom"></i> Clear Canvas
+                    </button>
+                </form>
+                
+                <div class="result" id="result">Enter values and click calculate</div>
+                
+                <div class="stats-grid" id="statsGrid" style="display: none;">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalTrees">0</div>
+                        <div class="stat-label">Total Trees</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="selectedTrees">0</div>
+                        <div class="stat-label">Selected Trees</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="treeDensity">0</div>
+                        <div class="stat-label">Trees/Acre</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="canvas-section">
+                <div id="canvasContainer">
+                    <canvas id="treeCanvas" width="600" height="400"></canvas>
+                    <div class="canvas-info">
+                        <i class="fas fa-info-circle"></i> 
+                        Drag to select trees within the geofenced area
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isDragging = false;
+        let startX, startY, endX, endY;
+        let acres = 0, treesPerAcre = 0;
+        let totalTreesCount = 0;
+        let trees = [];
+        const canvas = document.getElementById('treeCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Enhanced event listeners
+        canvas.addEventListener('mousedown', handleMouseDown);
+        canvas.addEventListener('mousemove', handleMouseMove);
+        canvas.addEventListener('mouseup', handleMouseUp);
+        canvas.addEventListener('mouseleave', handleMouseLeave);
+
+        // Touch events for mobile support
+        canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+        canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+        canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
+
+        function handleMouseDown(event) {
+            isDragging = true;
+            const rect = canvas.getBoundingClientRect();
+            startX = event.clientX - rect.left;
+            startY = event.clientY - rect.top;
+        }
+
+        function handleMouseMove(event) {
+            if (!isDragging) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            endX = event.clientX - rect.left;
+            endY = event.clientY - rect.top;
+
+            drawTrees();
+            drawSelectionBox();
+        }
+
+        function handleMouseUp(event) {
+            if (!isDragging) return;
+            
+            isDragging = false;
+            const rect = canvas.getBoundingClientRect();
+            endX = event.clientX - rect.left;
+            endY = event.clientY - rect.top;
+
+            const selectedTrees = calculateSelectedTrees();
+            updateStats(selectedTrees.length);
+            drawTrees();
+            highlightSelectedTrees(selectedTrees);
+        }
+
+        function handleMouseLeave() {
+            isDragging = false;
+        }
+
+        // Touch event handlers
+        function handleTouchStart(event) {
+            event.preventDefault();
+            const touch = event.touches[0];
+            const mouseEvent = new MouseEvent('mousedown', {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            canvas.dispatchEvent(mouseEvent);
+        }
+
+        function handleTouchMove(event) {
+            event.preventDefault();
+            const touch = event.touches[0];
+            const mouseEvent = new MouseEvent('mousemove', {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            canvas.dispatchEvent(mouseEvent);
+        }
+
+        function handleTouchEnd(event) {
+            event.preventDefault();
+            const mouseEvent = new MouseEvent('mouseup', {});
+            canvas.dispatchEvent(mouseEvent);
+        }
+
+        function drawSelectionBox() {
+            if (!isDragging) return;
+            
+            const width = endX - startX;
+            const height = endY - startY;
+
+            ctx.fillStyle = 'rgba(0, 123, 255, 0.2)';
+            ctx.fillRect(startX, startY, width, height);
+            
+            ctx.strokeStyle = 'rgba(0, 123, 255, 0.8)';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.strokeRect(startX, startY, width, height);
+            ctx.setLineDash([]);
+        }
+
+        function calculateSelectedTrees() {
+            if (!startX || !endX) return [];
+
+            const selectedTrees = [];
+            const minX = Math.min(startX, endX);
+            const minY = Math.min(startY, endY);
+            const maxX = Math.max(startX, endX);
+            const maxY = Math.max(startY, endY);
+
+            trees.forEach(tree => {
+                if (tree.x >= minX && tree.x <= maxX && 
+                    tree.y >= minY && tree.y <= maxY) {
+                    selectedTrees.push(tree);
+                }
+            });
+
+            return selectedTrees;
+        }
+
+        function highlightSelectedTrees(selectedTrees) {
+            selectedTrees.forEach(tree => {
+                ctx.beginPath();
+                ctx.arc(tree.x, tree.y, 8, 0, 2 * Math.PI);
+                ctx.strokeStyle = '#ff6b35';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+            });
+        }
+
+        function calculateTotalTrees() {
+            acres = parseFloat(document.getElementById('acres').value) || 0;
+            treesPerAcre = parseInt(document.getElementById('treesPerAcre').value) || 0;
+
+            if (acres <= 0 || treesPerAcre <= 0) {
+                document.getElementById('result').textContent = 'Please enter valid positive numbers';
+                document.getElementById('result').style.color = '#dc3545';
+                return;
+            }
+
+            totalTreesCount = Math.round(acres * treesPerAcre);
+            
+            document.getElementById('result').innerHTML = `
+                <i class="fas fa-check-circle"></i> 
+                Calculation complete! Total trees: ${totalTreesCount}
+            `;
+            document.getElementById('result').style.color = '#28a745';
+
+            generateTrees();
+            drawTrees();
+            updateStats(0);
+            document.getElementById('statsGrid').style.display = 'grid';
+        }
+
+        function generateTrees() {
+            trees = [];
+            const geofenceX = 50;
+            const geofenceY = 50;
+            const geofenceWidth = 500;
+            const geofenceHeight = 300;
+
+            // Calculate optimal grid layout
+            const treesPerRow = Math.ceil(Math.sqrt(totalTreesCount * (geofenceWidth / geofenceHeight)));
+            const treesPerCol = Math.ceil(totalTreesCount / treesPerRow);
+            
+            const spacingX = geofenceWidth / (treesPerRow + 1);
+            const spacingY = geofenceHeight / (treesPerCol + 1);
+
+            let treeCount = 0;
+            for (let row = 0; row < treesPerCol && treeCount < totalTreesCount; row++) {
+                for (let col = 0; col < treesPerRow && treeCount < totalTreesCount; col++) {
+                    const x = geofenceX + (col + 1) * spacingX;
+                    const y = geofenceY + (row + 1) * spacingY;
+                    
+                    // Add slight randomization for natural look
+                    const offsetX = (Math.random() - 0.5) * spacingX * 0.3;
+                    const offsetY = (Math.random() - 0.5) * spacingY * 0.3;
+                    
+                    trees.push({
+                        x: x + offsetX,
+                        y: y + offsetY,
+                        id: treeCount
+                    });
+                    treeCount++;
+                }
+            }
+        }
+
+        function drawTrees() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw background gradient
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#e8f5e8');
+            gradient.addColorStop(1, '#f0f8f0');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw geofencing area with enhanced styling
+            const geofenceX = 50;
+            const geofenceY = 50;
+            const geofenceWidth = 500;
+            const geofenceHeight = 300;
+
+            // Geofence background
+            ctx.fillStyle = 'rgba(40, 167, 69, 0.1)';
+            ctx.fillRect(geofenceX, geofenceY, geofenceWidth, geofenceHeight);
+
+            // Geofence border
+            ctx.strokeStyle = '#28a745';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(geofenceX, geofenceY, geofenceWidth, geofenceHeight);
+
+            // Add corner markers
+            drawCornerMarkers(geofenceX, geofenceY, geofenceWidth, geofenceHeight);
+
+            // Draw trees with enhanced styling
+            trees.forEach(tree => {
+                drawTree(tree.x, tree.y);
+            });
+
+            // Add labels
+            ctx.fillStyle = '#495057';
+            ctx.font = 'bold 14px Segoe UI';
+            ctx.textAlign = 'center';
+            ctx.fillText('Geofenced Area', geofenceX + geofenceWidth / 2, geofenceY - 10);
+        }
+
+        function drawTree(x, y) {
+            // Tree trunk
+            ctx.fillStyle = '#8B4513';
+            ctx.fillRect(x - 2, y + 3, 4, 8);
+
+            // Tree foliage (multiple circles for depth)
+            const foliageColors = ['#228B22', '#32CD32', '#90EE90'];
+            const radii = [7, 5, 3];
+
+            foliageColors.forEach((color, index) => {
+                ctx.beginPath();
+                ctx.fillStyle = color;
+                ctx.arc(x, y, radii[index], 0, 2 * Math.PI);
+                ctx.fill();
+                
+                if (index === 0) {
+                    ctx.strokeStyle = '#006400';
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+            });
+        }
+
+        function drawCornerMarkers(x, y, width, height) {
+            const markerSize = 10;
+            ctx.fillStyle = '#28a745';
+            
+            // Top-left
+            ctx.fillRect(x - 2, y - 2, markerSize, 2);
+            ctx.fillRect(x - 2, y - 2, 2, markerSize);
+            
+            // Top-right
+            ctx.fillRect(x + width - markerSize + 2, y - 2, markerSize, 2);
+            ctx.fillRect(x + width, y - 2, 2, markerSize);
+            
+            // Bottom-left
+            ctx.fillRect(x - 2, y + height, markerSize, 2);
+            ctx.fillRect(x - 2, y + height - markerSize + 2, 2, markerSize);
+            
+            // Bottom-right
+            ctx.fillRect(x + width - markerSize + 2, y + height, markerSize, 2);
+            ctx.fillRect(x + width, y + height - markerSize + 2, 2, markerSize);
+        }
+
+        function updateStats(selectedCount) {
+            document.getElementById('totalTrees').textContent = totalTreesCount;
+            document.getElementById('selectedTrees').textContent = selectedCount;
+            document.getElementById('treeDensity').textContent = treesPerAcre;
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            trees = [];
+            totalTreesCount = 0;
+            document.getElementById('result').textContent = 'Canvas cleared. Enter values and calculate.';
+            document.getElementById('result').style.color = '#6c757d';
+            document.getElementById('statsGrid').style.display = 'none';
+            
+            // Reset form
+            document.getElementById('acres').value = '';
+            document.getElementById('treesPerAcre').value = '5';
+        }
+
+        // Initialize canvas with instructions
+        function initializeCanvas() {
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#e8f5e8');
+            gradient.addColorStop(1, '#f0f8f0');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#6c757d';
+            ctx.font = '18px Segoe UI';
+            ctx.textAlign = 'center';
+            ctx.fillText('Enter values and click Calculate to begin', canvas.width / 2, canvas.height / 2);
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', initializeCanvas);
+    </script>
+    </script>
+</body>
+</html>
+

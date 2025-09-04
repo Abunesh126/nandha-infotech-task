@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enhanced Air Quality Monitor</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1><i class="fas fa-wind"></i> Enhanced Air Quality Monitor</h1>
+        <p class="subtitle">Real-time air quality monitoring and analysis</p>
+      </header>
+
+      <div class="search-section">
+        <div class="input-group">
+          <input
+            type="text"
+            id="location"
+            placeholder="Enter location (e.g., New York, London)"
+            autocomplete="off"
+          />
+          <button id="fetch-data" class="btn-primary">
+            <i class="fas fa-search"></i> Get Air Quality Data
+          </button>
+          <button id="get-current-location" class="btn-secondary">
+            <i class="fas fa-location-arrow"></i> Use Current Location
+          </button>
+        </div>
+      </div>
+
+      <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <p>Fetching air quality data...</p>
+      </div>
+
+      <div id="error-message" class="error-message hidden"></div>
+
+      <div id="air-quality-display" class="hidden">
+        <div class="location-info">
+          <h2><i class="fas fa-map-marker-alt"></i> Location Information</h2>
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="label">Location:</span>
+              <span id="location-display" class="value"></span>
+            </div>
+            <div class="info-item">
+              <span class="label">Latitude:</span>
+              <span id="latitude" class="value"></span>
+            </div>
+            <div class="info-item">
+              <span class="label">Longitude:</span>
+              <span id="longitude" class="value"></span>
+            </div>
+            <div class="info-item">
+              <span class="label">Last Updated:</span>
+              <span id="last-updated" class="value"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="aqi-section">
+          <div class="aqi-card">
+            <h3><i class="fas fa-gauge-high"></i> Air Quality Index</h3>
+            <div class="aqi-value-container">
+              <div id="aqi" class="aqi-value">--</div>
+              <div id="aqi-category" class="aqi-category">--</div>
+              <div id="aqi-description" class="aqi-description">--</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pollutants-grid">
+          <div class="pollutant-card">
+            <h4><i class="fas fa-smog"></i> PM10</h4>
+            <div class="pollutant-value">
+              <span id="pm10" class="value">--</span>
+              <span class="unit">µg/m³</span>
+            </div>
+            <div id="pm10-status" class="status-indicator"></div>
+          </div>
+
+          <div class="pollutant-card">
+            <h4><i class="fas fa-cloud"></i> PM2.5</h4>
+            <div class="pollutant-value">
+              <span id="pm25" class="value">--</span>
+              <span class="unit">µg/m³</span>
+            </div>
+            <div id="pm25-status" class="status-indicator"></div>
+          </div>
+
+          <div class="pollutant-card">
+            <h4><i class="fas fa-atom"></i> O3</h4>
+            <div class="pollutant-value">
+              <span id="o3" class="value">--</span>
+              <span class="unit">µg/m³</span>
+            </div>
+            <div id="o3-status" class="status-indicator"></div>
+          </div>
+
+          <div class="pollutant-card">
+            <h4><i class="fas fa-industry"></i> NO2</h4>
+            <div class="pollutant-value">
+              <span id="no2" class="value">--</span>
+              <span class="unit">µg/m³</span>
+            </div>
+            <div id="no2-status" class="status-indicator"></div>
+          </div>
+
+          <div class="pollutant-card">
+            <h4><i class="fas fa-fire"></i> SO2</h4>
+            <div class="pollutant-value">
+              <span id="so2" class="value">--</span>
+              <span class="unit">µg/m³</span>
+            </div>
+            <div id="so2-status" class="status-indicator"></div>
+          </div>
+
+          <div class="pollutant-card">
+            <h4><i class="fas fa-car"></i> CO</h4>
+            <div class="pollutant-value">
+              <span id="co" class="value">--</span>
+              <span class="unit">µg/m³</span>
+            </div>
+            <div id="co-status" class="status-indicator"></div>
+          </div>
+        </div>
+
+        <div class="recommendations-section">
+          <h3><i class="fas fa-lightbulb"></i> Health Recommendations</h3>
+          <div id="recommendations" class="recommendations-content">
+            <p>
+              Enter a location to get personalized health recommendations based
+              on air quality.
+            </p>
+          </div>
+        </div>
+
+        <div class="actions-section">
+          <button id="refresh-data" class="btn-primary">
+            <i class="fas fa-sync-alt"></i> Refresh Data
+          </button>
+          <button id="export-data" class="btn-secondary">
+            <i class="fas fa-download"></i> Export Data
+          </button>
+          <button id="share-data" class="btn-secondary">
+            <i class="fas fa-share"></i> Share
+          </button>
+        </div>
+      </div>
+
+      <div class="additional-info">
+        <div class="info-card">
+          <h4><i class="fas fa-info-circle"></i> About Air Quality Index</h4>
+          <div class="aqi-scale">
+            <div class="scale-item good">
+              <span class="range">0-50</span>
+              <span class="label">Good</span>
+            </div>
+            <div class="scale-item moderate">
+              <span class="range">51-100</span>
+              <span class="label">Moderate</span>
+            </div>
+            <div class="scale-item unhealthy-sensitive">
+              <span class="range">101-150</span>
+              <span class="label">Unhealthy for Sensitive Groups</span>
+            </div>
+            <div class="scale-item unhealthy">
+              <span class="range">151-200</span>
+              <span class="label">Unhealthy</span>
+            </div>
+            <div class="scale-item very-unhealthy">
+              <span class="range">201-300</span>
+              <span class="label">Very Unhealthy</span>
+            </div>
+            <div class="scale-item hazardous">
+              <span class="range">300+</span>
+              <span class="label">Hazardous</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <p>
+          &copy; 2024 Enhanced Air Quality Monitor. Data provided by
+          OpenWeatherMap API.
+        </p>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

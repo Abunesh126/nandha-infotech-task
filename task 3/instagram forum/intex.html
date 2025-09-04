@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enhanced Instagram Forum</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="app-container">
+      <header class="header">
+        <div class="header-content">
+          <h1><i class="fab fa-instagram"></i> Enhanced Instagram Forum</h1>
+          <div class="user-info">
+            <div class="user-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+            <span class="username">@user_demo</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <div class="posts-container">
+          <!-- Post 1 -->
+          <article class="post-card" data-post-id="1">
+            <div class="post-header">
+              <div class="user-info">
+                <div class="user-avatar">
+                  <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="user-details">
+                  <span class="username">@nature_lover</span>
+                  <span class="location">Beautiful Forest</span>
+                </div>
+              </div>
+              <button class="options-btn">
+                <i class="fas fa-ellipsis-h"></i>
+              </button>
+            </div>
+
+            <div class="post-image">
+              <img src="./teedy.png" alt="Nature Photo" loading="lazy" />
+              <div class="image-overlay">
+                <button class="fullscreen-btn" onclick="openImageModal(this)">
+                  <i class="fas fa-expand"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="post-actions">
+              <div class="action-buttons">
+                <button class="action-btn heart-btn" data-liked="false">
+                  <i class="far fa-heart"></i>
+                </button>
+                <button class="action-btn comment-btn">
+                  <i class="far fa-comment"></i>
+                </button>
+                <button class="action-btn share-btn">
+                  <i class="far fa-paper-plane"></i>
+                </button>
+              </div>
+              <button class="bookmark-btn" data-bookmarked="false">
+                <i class="far fa-bookmark"></i>
+              </button>
+            </div>
+
+            <div class="post-stats">
+              <span class="likes-count">142 likes</span>
+            </div>
+
+            <div class="post-caption">
+              <span class="username">@nature_lover</span>
+              <span class="caption-text"
+                >Beautiful day in the forest! Nature never ceases to amaze me
+                🌲🌞 #nature #forest #photography</span
+              >
+            </div>
+
+            <div class="post-time">
+              <span>2 hours ago</span>
+            </div>
+
+            <div class="comments-section">
+              <div class="view-comments">
+                <button class="view-comments-btn">View all 23 comments</button>
+              </div>
+
+              <div class="recent-comments">
+                <div class="comment">
+                  <span class="comment-user">@photographer_pro</span>
+                  <span class="comment-text"
+                    >Amazing shot! What camera did you use?</span
+                  >
+                </div>
+                <div class="comment">
+                  <span class="comment-user">@mountain_hiker</span>
+                  <span class="comment-text"
+                    >This looks like the trail I hiked last week!</span
+                  >
+                </div>
+              </div>
+
+              <div class="add-comment">
+                <div class="comment-input-container">
+                  <input
+                    type="text"
+                    placeholder="Add a comment..."
+                    class="comment-input"
+                  />
+                  <button class="post-comment-btn">Post</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Post 2 -->
+          <article class="post-card" data-post-id="2">
+            <div class="post-header">
+              <div class="user-info">
+                <div class="user-avatar">
+                  <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="user-details">
+                  <span class="username">@tech_enthusiast</span>
+                  <span class="location">Silicon Valley</span>
+                </div>
+              </div>
+              <button class="options-btn">
+                <i class="fas fa-ellipsis-h"></i>
+              </button>
+            </div>
+
+            <div class="post-image">
+              <img src="./teedy.png" alt="Tech Setup" loading="lazy" />
+              <div class="image-overlay">
+                <button class="fullscreen-btn" onclick="openImageModal(this)">
+                  <i class="fas fa-expand"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="post-actions">
+              <div class="action-buttons">
+                <button class="action-btn heart-btn" data-liked="false">
+                  <i class="far fa-heart"></i>
+                </button>
+                <button class="action-btn comment-btn">
+                  <i class="far fa-comment"></i>
+                </button>
+                <button class="action-btn share-btn">
+                  <i class="far fa-paper-plane"></i>
+                </button>
+              </div>
+              <button class="bookmark-btn" data-bookmarked="false">
+                <i class="far fa-bookmark"></i>
+              </button>
+            </div>
+
+            <div class="post-stats">
+              <span class="likes-count">89 likes</span>
+            </div>
+
+            <div class="post-caption">
+              <span class="username">@tech_enthusiast</span>
+              <span class="caption-text"
+                >New workspace setup complete! Productivity level: Maximum 💻✨
+                #tech #workspace #productivity</span
+              >
+            </div>
+
+            <div class="post-time">
+              <span>5 hours ago</span>
+            </div>
+
+            <div class="comments-section">
+              <div class="view-comments">
+                <button class="view-comments-btn">View all 15 comments</button>
+              </div>
+
+              <div class="recent-comments">
+                <div class="comment">
+                  <span class="comment-user">@desk_setup_lover</span>
+                  <span class="comment-text"
+                    >Clean setup! Love the minimalist approach 👌</span
+                  >
+                </div>
+              </div>
+
+              <div class="add-comment">
+                <div class="comment-input-container">
+                  <input
+                    type="text"
+                    placeholder="Add a comment..."
+                    class="comment-input"
+                  />
+                  <button class="post-comment-btn">Post</button>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Stories Section -->
+        <div class="stories-section">
+          <h3>Stories</h3>
+          <div class="stories-container">
+            <div class="story" data-story-id="1">
+              <div class="story-avatar">
+                <img src="./teedy.png" alt="User Story" />
+                <div class="story-ring"></div>
+              </div>
+              <span class="story-username">Your story</span>
+            </div>
+            <div class="story" data-story-id="2">
+              <div class="story-avatar">
+                <img src="./teedy.png" alt="User Story" />
+                <div class="story-ring viewed"></div>
+              </div>
+              <span class="story-username">friend_1</span>
+            </div>
+            <div class="story" data-story-id="3">
+              <div class="story-avatar">
+                <img src="./teedy.png" alt="User Story" />
+                <div class="story-ring"></div>
+              </div>
+              <span class="story-username">friend_2</span>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Image Modal -->
+      <div id="imageModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <img id="modalImage" src="" alt="Full size image" />
+          <div class="modal-actions">
+            <button id="downloadBtn" class="modal-btn">
+              <i class="fas fa-download"></i> Download
+            </button>
+            <button id="shareModalBtn" class="modal-btn">
+              <i class="fas fa-share"></i> Share
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Share Modal -->
+      <div id="shareModal" class="modal">
+        <div class="modal-content share-modal-content">
+          <div class="share-header">
+            <h3>Share Post</h3>
+            <span class="close">&times;</span>
+          </div>
+          <div class="share-options">
+            <button class="share-option" data-platform="facebook">
+              <i class="fab fa-facebook"></i>
+              <span>Facebook</span>
+            </button>
+            <button class="share-option" data-platform="twitter">
+              <i class="fab fa-twitter"></i>
+              <span>Twitter</span>
+            </button>
+            <button class="share-option" data-platform="whatsapp">
+              <i class="fab fa-whatsapp"></i>
+              <span>WhatsApp</span>
+            </button>
+            <button class="share-option" data-platform="copy">
+              <i class="fas fa-copy"></i>
+              <span>Copy Link</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notification Toast -->
+      <div id="toast" class="toast">
+        <div class="toast-content">
+          <i class="fas fa-check-circle"></i>
+          <span class="toast-message">Action completed!</span>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

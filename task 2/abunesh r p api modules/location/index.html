@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocationIQ Reverse Geocoding</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 LocationIQ Reverse Geocoding</h1>
+        <p class="description">Get detailed address information from latitude and longitude coordinates using LocationIQ API</p>
+        
+        <div class="api-info">
+            <h3>📋 API Information</h3>
+            <p><strong>Service:</strong> LocationIQ Reverse Geocoding</p>
+            <p><strong>Endpoint:</strong> https://us1.locationiq.com/v1/reverse.php</p>
+            <p><strong>Format:</strong> JSON Response</p>
+            <p><strong>Features:</strong> Get detailed address information from coordinates</p>
+        </div>
+
+        <div class="input-section">
+            <div class="coordinates-group">
+                <div class="input-group">
+                    <label for="latitude">📍 Latitude:</label>
+                    <input type="number" id="latitude" value="10.9413" step="any" min="-90" max="90">
+                </div>
+                <div class="input-group">
+                    <label for="longitude">📍 Longitude:</label>
+                    <input type="number" id="longitude" value="76.7439" step="any" min="-180" max="180">
+                </div>
+            </div>
+            
+            <button id="fetchLocation" class="fetch-btn">🔍 Get Location Details</button>
+            
+            <div class="quick-locations">
+                <h4>📌 Quick Test Locations:</h4>
+                <button onclick="setCoordinates(10.9413, 76.7439)" class="location-btn">Kerala, India</button>
+                <button onclick="setCoordinates(40.7128, -74.0060)" class="location-btn">New York, USA</button>
+                <button onclick="setCoordinates(51.5074, -0.1278)" class="location-btn">London, UK</button>
+                <button onclick="setCoordinates(35.6762, 139.6503)" class="location-btn">Tokyo, Japan</button>
+            </div>
+        </div>
+
+        <div id="locationDetails" class="results-section">
+            <h2>📋 Location Details:</h2>
+            <div id="location" class="location-info"></div>
+            <div id="coordinates" class="coordinates-info"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

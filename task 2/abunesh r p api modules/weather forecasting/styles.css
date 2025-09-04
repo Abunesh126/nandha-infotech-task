@@ -1,0 +1,51 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px; /* Increase the max-width */
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+}
+
+input, button {
+    width: calc(50% - 10px);
+    padding: 10px;
+    margin: 5px;
+}
+
+#forecasts {
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+th {
+    background-color: #00acc1;
+    color: white;
+    text-align: left;
+}
+
+.date-heading {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #333;
+}
